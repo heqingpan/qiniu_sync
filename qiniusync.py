@@ -48,9 +48,9 @@ def get_files(basedir="",fix="",rlist=None,ignore_paths=[],ignore_names=[]):
         rlist=[]
     for subfile in os.listdir(basedir):
         temp_path=os.path.join(basedir,subfile)
-        if temp_path in ignore_names:
-            continue
         tp=os.path.join(fix,subfile)
+        if tp in ignore_names:
+            continue
         if tp in ignore_paths:
             continue
         if os.path.isfile(temp_path):

@@ -14,8 +14,7 @@ access_key = ''
 secret_key = ''
 bucket_name = ''
 ```
-
-** 注册后可以拿到对应的信息 **
+>注册后可以拿到对应的信息 
 
 * 将脚本文件(qiniusync.py)拷贝到待同步根目录
 
