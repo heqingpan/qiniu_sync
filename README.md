@@ -13,6 +13,7 @@
 access_key = ''
 secret_key = ''
 bucket_name = ''
+bucket_domain = ''
 ```
 >注册后可以拿到对应的信息 
 
@@ -21,4 +22,6 @@ bucket_name = ''
 * 运行脚本
 ```
 python qiniusync.py
+python qiniusync.py down
+python qiniusync.py down [文件路径前缀]
 ```
