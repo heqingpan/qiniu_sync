@@ -10,6 +10,8 @@ from qiniu import Auth
 from qiniu import BucketManager
 import os
 import re
+import urllib2
+import sys
 
 access_key = ''
 secret_key = ''
@@ -19,6 +21,8 @@ bucket_domain = ''
 q = Auth(access_key, secret_key)
 bucket = BucketManager(q)
 basedir=os.path.realpath(os.path.dirname(__file__))
+#同步目录
+#basedir=""
 filename=__file__
 ignore_paths=[filename,"{0}c".format(filename)]
 ignore_names=[".DS_Store",".git",".gitignore"]
@@ -124,8 +128,44 @@ def get_mime_type(path):
     mime_type = "text/plain"
     return mime_type
 
+def down_file(key,basedir="",is_private=1,expires=3600):
+    if isinstance(key,unicode):
+        key=key.encode(charset)
+    url = 'http://%s/%s' % (bucket_domain, key)
+    if is_private:
+        url=q.private_download_url(url, expires=expires)
+    c=urllib2.urlopen(url)
+    fpath=key.replace("/",os.sep)
+    savepath=os.path.join(basedir,fpath)
+    dir_=os.path.dirname(savepath)
+    if not os.path.isdir(dir_):
+        os.makedirs(dir_)
+    elif os.path.isfile(savepath):
+        os.remove(savepath)
+    f = file(savepath, 'wb')
+    f.write(c.read())
+    f.close()
+
+def down_all(prefix=""):
+    import traceback
+    for key in list_all(bucket_name,bucket,prefix=prefix):
+        try:
+            down_file(key,basedir=basedir)
+            print "down:\t"+key
+        except:
+            print "error down:\t"+key
+            print traceback.format_exc()
+    print "down end"
+
+
 def main():
+    if len(sys.argv)>1:
+        if sys.argv[1]=="down":
+            prefix=len(sys.argv)>2 and sys.argv[2] or ""
+            down_all(prefix=prefix)
+            return
     sync()
 
 if __name__=="__main__":
     main()
+
