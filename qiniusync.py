@@ -25,7 +25,7 @@ basedir=os.path.realpath(os.path.dirname(__file__))
 #basedir=""
 filename=__file__
 ignore_paths=[filename,"{0}c".format(filename)]
-ignore_names=[".DS_Store",".git",".gitignore"]
+ignore_names=[".DS_Store",".git",".gitignore","qiniusync.py","README.md","LICENSE"]
 charset="utf8"
 diff_time=2*60
 
