@@ -25,7 +25,7 @@ basedir=os.path.realpath(os.path.dirname(__file__))
 #basedir=""
 filename=__file__
 ignore_paths=[filename,"{0}c".format(filename)]
-ignore_names=[".DS_Store",".git",".gitignore"]
+ignore_names=[".DS_Store",".git",".gitignore","qiniusync.py","README.md","LICENSE"]
 charset="utf8"
 diff_time=2*60
 
@@ -136,7 +136,7 @@ def down_file(key,basedir="",is_private=1,expires=3600):
         url=q.private_download_url(url, expires=expires)
     c=urllib2.urlopen(url)
     fpath=key.replace("/",os.sep)
-    savepath=os.path.join(basedir,fpath)
+    savepath=os.path.join(basedir,fpath).decode(charset)
     dir_=os.path.dirname(savepath)
     if not os.path.isdir(dir_):
         os.makedirs(dir_)
